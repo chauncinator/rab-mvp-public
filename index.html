@@ -3,258 +3,349 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ReadyAimBid - Roofing Estimator</title>
+    <title>ReadyAimBid | Revolutionary Roofing Estimator</title>
+    <!-- GSAP Animation Library -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.6.0/jspdf.plugin.autotable.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <!-- Custom Styles -->
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <div class="cursor"></div>
-    <div class="app-container">
-        <header>
-            <h1 class="logo">Ready<span>Aim</span>Bid</h1>
-            <p class="app-title">Roofing Estimator</p>
-        </header>
+    
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="navbar-container">
+            <div class="logo">Ready<span>Aim</span>Bid</div>
+            <div class="nav-links">
+                <a href="#features">Features</a>
+                <a href="#benefits">Benefits</a>
+                <a href="#testimonials">Testimonials</a>
+                <a href="#contact">Contact</a>
+            </div>
+            <button class="btn-primary btn-demo">Request a Demo</button>
+            <div class="menu-toggle">
+                <div class="bar"></div>
+                <div class="bar"></div>
+                <div class="bar"></div>
+            </div>
+        </div>
+    </nav>
 
-        <main>
-            <div class="estimator-container">
-                <div class="steps-container">
-                    <div class="step active" data-step="1">
-                        <div class="step-number">1</div>
-                        <div class="step-label">Customer Info</div>
-                    </div>
-                    <div class="step" data-step="2">
-                        <div class="step-number">2</div>
-                        <div class="step-label">Roof Details</div>
-                    </div>
-                    <div class="step" data-step="3">
-                        <div class="step-number">3</div>
-                        <div class="step-label">Add Items</div>
-                    </div>
-                    <div class="step" data-step="4">
-                        <div class="step-number">4</div>
-                        <div class="step-label">Review</div>
-                    </div>
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <h1 class="hero-title">
+                PRECISION <br>
+                <span class="text-accent">BIDDING</span> FOR<br>
+                PRO ROOFERS
+            </h1>
+            <p class="hero-subtitle">Revolutionizing commercial roof estimating with AI-powered precision and real-time material calculations.</p>
+            <div class="hero-actions">
+                <button class="btn-primary btn-large">See It In Action</button>
+                <button class="btn-secondary btn-large">Join the Waitlist</button>
+            </div>
+            <div class="hero-stats">
+                <div class="stat">
+                    <div class="stat-value">35%</div>
+                    <div class="stat-label">Time Saved</div>
                 </div>
-
-                <div class="form-container">
-                    <!-- Step 1: Customer Info -->
-                    <div class="form-step active" id="step1">
-                        <h2>Customer Information</h2>
-                        <div class="form-group">
-                            <label for="customerName">Customer Name</label>
-                            <input type="text" id="customerName" name="customerName">
-                        </div>
-                        <div class="form-group">
-                            <label for="customerEmail">Email</label>
-                            <input type="email" id="customerEmail" name="customerEmail">
-                        </div>
-                        <div class="form-group">
-                            <label for="customerPhone">Phone</label>
-                            <input type="tel" id="customerPhone" name="customerPhone">
-                        </div>
-                        <div class="form-group">
-                            <label for="customerAddress">Address</label>
-                            <input type="text" id="customerAddress" name="customerAddress">
-                        </div>
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label for="customerCity">City</label>
-                                <input type="text" id="customerCity" name="customerCity">
-                            </div>
-                            <div class="form-group">
-                                <label for="customerState">State</label>
-                                <input type="text" id="customerState" name="customerState">
-                            </div>
-                            <div class="form-group">
-                                <label for="customerZip">ZIP</label>
-                                <input type="text" id="customerZip" name="customerZip">
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Step 2: Roof Details -->
-                    <div class="form-step" id="step2">
-                        <h2>Roof Details</h2>
-                        <div class="form-group">
-                            <label for="roofType">Roof Type</label>
-                            <select id="roofType" name="roofType">
-                                <option value="TPO">TPO</option>
-                                <option value="PVC">PVC</option>
-                                <option value="EPDM">EPDM</option>
-                                <option value="Modified Bitumen">Modified Bitumen</option>
-                                <option value="Built-Up">Built-Up</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label for="roofColor">Roof Color</label>
-                            <select id="roofColor" name="roofColor">
-                                <option value="White">White</option>
-                                <option value="Black">Black</option>
-                                <option value="Gray">Gray</option>
-                                <option value="Tan">Tan</option>
-                            </select>
-                        </div>
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label for="crewSize">Crew Size</label>
-                                <input type="number" id="crewSize" name="crewSize" value="2" min="1">
-                            </div>
-                            <div class="form-group">
-                                <label for="manDayRate">Man-Day Rate ($)</label>
-                                <input type="number" id="manDayRate" name="manDayRate" value="330" min="0">
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="buildingType">Building Type</label>
-                            <select id="buildingType" name="buildingType">
-                                <option value="Commercial">Commercial</option>
-                                <option value="Data Center">Data Center</option>
-                                <option value="Industrial">Industrial</option>
-                                <option value="Retail">Retail</option>
-                                <option value="Office">Office</option>
-                            </select>
-                        </div>
-                    </div>
-
-                    <!-- Step 3: Add Items -->
-                    <div class="form-step" id="step3">
-                        <h2>Add Line Items</h2>
-                        <div class="scope-selector">
-                            <div class="form-group">
-                                <label for="scopeSelect">Select Scope of Work</label>
-                                <select id="scopeSelect" name="scopeSelect">
-                                    <option value="">-- Select Scope --</option>
-                                    <option value="Abandoned Equipment">Abandoned Equipment</option>
-                                    <option value="Back Fill RTU TPO Roof">Back Fill RTU TPO Roof</option>
-                                    <option value="Backfill Roof Drain">Backfill Roof Drain</option>
-                                    <option value="Backfill Roof Penetration">Backfill Roof Penetration</option>
-                                </select>
-                            </div>
-                            <div class="form-row">
-                                <div class="form-group">
-                                    <label for="itemQuantity">Quantity</label>
-                                    <input type="number" id="itemQuantity" name="itemQuantity" value="1" min="1">
-                                </div>
-                                <div class="form-group">
-                                    <label for="itemPrice">Unit Price ($)</label>
-                                    <input type="number" id="itemPrice" name="itemPrice" value="750" min="0">
-                                </div>
-                            </div>
-                            <button class="btn btn-secondary" id="addItemBtn">Add to Estimate</button>
-                        </div>
-
-                        <div class="line-items">
-                            <h3>Current Items</h3>
-                            <div class="table-container">
-                                <table id="itemsTable">
-                                    <thead>
-                                        <tr>
-                                            <th>Scope</th>
-                                            <th>Quantity</th>
-                                            <th>Unit Price</th>
-                                            <th>Total</th>
-                                            <th>Actions</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody id="itemsTableBody">
-                                        <!-- Items will be added here dynamically -->
-                                    </tbody>
-                                </table>
-                            </div>
-                            <div class="estimate-totals">
-                                <p>Total: $<span id="estimateTotal">0.00</span></p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Step 4: Review -->
-                    <div class="form-step" id="step4">
-                        <h2>Review Estimate</h2>
-                        <div class="review-section">
-                            <h3>Customer Information</h3>
-                            <div class="review-grid">
-                                <div class="review-item">
-                                    <div class="review-label">Name:</div>
-                                    <div id="reviewName" class="review-value"></div>
-                                </div>
-                                <div class="review-item">
-                                    <div class="review-label">Email:</div>
-                                    <div id="reviewEmail" class="review-value"></div>
-                                </div>
-                                <div class="review-item">
-                                    <div class="review-label">Phone:</div>
-                                    <div id="reviewPhone" class="review-value"></div>
-                                </div>
-                                <div class="review-item">
-                                    <div class="review-label">Address:</div>
-                                    <div id="reviewAddress" class="review-value"></div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="review-section">
-                            <h3>Roof Details</h3>
-                            <div class="review-grid">
-                                <div class="review-item">
-                                    <div class="review-label">Type:</div>
-                                    <div id="reviewRoofType" class="review-value"></div>
-                                </div>
-                                <div class="review-item">
-                                    <div class="review-label">Color:</div>
-                                    <div id="reviewRoofColor" class="review-value"></div>
-                                </div>
-                                <div class="review-item">
-                                    <div class="review-label">Crew Size:</div>
-                                    <div id="reviewCrewSize" class="review-value"></div>
-                                </div>
-                                <div class="review-item">
-                                    <div class="review-label">Building Type:</div>
-                                    <div id="reviewBuildingType" class="review-value"></div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="review-section">
-                            <h3>Line Items</h3>
-                            <div class="table-container">
-                                <table id="reviewItemsTable">
-                                    <thead>
-                                        <tr>
-                                            <th>Scope</th>
-                                            <th>Quantity</th>
-                                            <th>Unit Price</th>
-                                            <th>Total</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody id="reviewItemsTableBody">
-                                        <!-- Items will be added here dynamically -->
-                                    </tbody>
-                                    <tfoot>
-                                        <tr>
-                                            <td colspan="3" class="total-label">Total:</td>
-                                            <td id="reviewTotal" class="total-value">$0.00</td>
-                                        </tr>
-                                    </tfoot>
-                                </table>
-                            </div>
-                        </div>
-                        
-                        <div class="generate-section">
-                            <button class="btn btn-primary" id="generatePdfBtn">Generate PDF</button>
-                        </div>
-                    </div>
+                <div class="stat">
+                    <div class="stat-value">26%</div>
+                    <div class="stat-label">Accuracy Increase</div>
                 </div>
-
-                <div class="form-navigation">
-                    <button class="btn btn-secondary" id="prevBtn" disabled>Previous</button>
-                    <button class="btn btn-primary" id="nextBtn">Next</button>
+                <div class="stat">
+                    <div class="stat-value">4.2x</div>
+                    <div class="stat-label">ROI</div>
                 </div>
             </div>
-        </main>
-    </div>
+        </div>
+        <div class="hero-image">
+            <div class="image-container">
+                <div class="overlay-text" data-text="READY"></div>
+                <div class="overlay-text" data-text="AIM"></div>
+                <div class="overlay-text" data-text="BID"></div>
+                <img src="https://via.placeholder.com/600x800" alt="ReadyAimBid App Preview">
+            </div>
+        </div>
+    </section>
 
-    <script src="app.js"></script>
+    <!-- Features Section -->
+    <section id="features" class="features">
+        <div class="section-header">
+            <h2 class="section-title">POWERFUL <span class="text-accent">FEATURES</span></h2>
+            <p class="section-subtitle">Built by roofers, for roofers</p>
+        </div>
+        
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-bolt"></i>
+                </div>
+                <h3 class="feature-title">Lightning Fast Estimates</h3>
+                <p class="feature-desc">Generate professional estimates in under 5 minutes with our streamlined workflow system.</p>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-calculator"></i>
+                </div>
+                <h3 class="feature-title">Real-Time Calculations</h3>
+                <p class="feature-desc">Adjust quantities, scope, and pricing on the fly with instant recalculations.</p>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-brain"></i>
+                </div>
+                <h3 class="feature-title">AI Material Optimization</h3>
+                <p class="feature-desc">Our AI suggests optimal material quantities based on job specifications and historical data.</p>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-file-pdf"></i>
+                </div>
+                <h3 class="feature-title">Professional PDFs</h3>
+                <p class="feature-desc">Create branded, customizable estimate documents your clients will appreciate.</p>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-database"></i>
+                </div>
+                <h3 class="feature-title">Material Database</h3>
+                <p class="feature-desc">Access our comprehensive database of roofing materials with up-to-date pricing information.</p>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-mobile-alt"></i>
+                </div>
+                <h3 class="feature-title">Mobile Field Access</h3>
+                <p class="feature-desc">Create estimates on-site with our responsive mobile interface designed for the field.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- App Showcase -->
+    <section class="app-showcase">
+        <div class="showcase-content">
+            <h2 class="showcase-title">SEE THE <span class="text-accent">DIFFERENCE</span></h2>
+            <div class="showcase-items">
+                <div class="showcase-item active" data-tab="1">
+                    <div class="number">01</div>
+                    <div class="item-content">
+                        <h3>Customer Information</h3>
+                        <p>Quickly input and store client details for faster follow-up and relationship building.</p>
+                    </div>
+                </div>
+                <div class="showcase-item" data-tab="2">
+                    <div class="number">02</div>
+                    <div class="item-content">
+                        <h3>Roof Details</h3>
+                        <p>Specify roof type, conditions, and dimensions with our easy-to-use interface.</p>
+                    </div>
+                </div>
+                <div class="showcase-item" data-tab="3">
+                    <div class="number">03</div>
+                    <div class="item-content">
+                        <h3>Material Selection</h3>
+                        <p>Choose from our extensive catalog of roofing materials with real-time pricing updates.</p>
+                    </div>
+                </div>
+                <div class="showcase-item" data-tab="4">
+                    <div class="number">04</div>
+                    <div class="item-content">
+                        <h3>Quote Generation</h3>
+                        <p>Create professional, detailed quotes that win more business with less effort.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="showcase-screens">
+            <div class="screen active" data-screen="1">
+                <img src="https://via.placeholder.com/600x400" alt="Customer Information Screen">
+            </div>
+            <div class="screen" data-screen="2">
+                <img src="https://via.placeholder.com/600x400" alt="Roof Details Screen">
+            </div>
+            <div class="screen" data-screen="3">
+                <img src="https://via.placeholder.com/600x400" alt="Material Selection Screen">
+            </div>
+            <div class="screen" data-screen="4">
+                <img src="https://via.placeholder.com/600x400" alt="Quote Generation Screen">
+            </div>
+        </div>
+    </section>
+
+    <!-- Benefits Section -->
+    <section id="benefits" class="benefits">
+        <div class="section-header">
+            <h2 class="section-title">REAL <span class="text-accent">RESULTS</span></h2>
+            <p class="section-subtitle">The ROI your business deserves</p>
+        </div>
+        
+        <div class="benefits-container">
+            <div class="benefit-card">
+                <div class="benefit-number">01</div>
+                <h3 class="benefit-title">Bid More Jobs</h3>
+                <p class="benefit-desc">Reduce estimate creation time by 35%, allowing your team to pursue more opportunities.</p>
+                <div class="benefit-stat">
+                    <div class="stat-value">3.5x</div>
+                    <div class="stat-label">More Bids Per Week</div>
+                </div>
+            </div>
+            
+            <div class="benefit-card">
+                <div class="benefit-number">02</div>
+                <h3 class="benefit-title">Win More Contracts</h3>
+                <p class="benefit-desc">Professional estimates with detailed breakdowns increase client confidence and conversion rates.</p>
+                <div class="benefit-stat">
+                    <div class="stat-value">26%</div>
+                    <div class="stat-label">Higher Close Rate</div>
+                </div>
+            </div>
+            
+            <div class="benefit-card">
+                <div class="benefit-number">03</div>
+                <h3 class="benefit-title">Reduce Material Waste</h3>
+                <p class="benefit-desc">AI-optimized material calculations ensure you order exactly what you need, nothing more.</p>
+                <div class="benefit-stat">
+                    <div class="stat-value">18%</div>
+                    <div class="stat-label">Less Material Waste</div>
+                </div>
+            </div>
+            
+            <div class="benefit-card">
+                <div class="benefit-number">04</div>
+                <h3 class="benefit-title">Protect Your Margins</h3>
+                <p class="benefit-desc">Real-time material price updates prevent underquoting and protect your bottom line.</p>
+                <div class="benefit-stat">
+                    <div class="stat-value">22%</div>
+                    <div class="stat-label">Margin Improvement</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonial Section -->
+    <section id="testimonials" class="testimonials">
+        <div class="section-header dark">
+            <h2 class="section-title">TRUSTED BY <span class="text-accent">PROS</span></h2>
+            <p class="section-subtitle">What industry leaders are saying</p>
+        </div>
+        
+        <div class="testimonial-container">
+            <div class="testimonial-card">
+                <div class="testimonial-content">
+                    <p>"ReadyAimBid has completely transformed how we handle estimates. What used to take hours now takes minutes, and our close rate has improved dramatically."</p>
+                </div>
+                <div class="testimonial-author">
+                    <img src="https://via.placeholder.com/80x80" alt="Mike Johnson">
+                    <div>
+                        <h4>Mike Johnson</h4>
+                        <p>Owner, Johnson Roofing</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="testimonial-card">
+                <div class="testimonial-content">
+                    <p>"The material optimization alone paid for the software in the first month. We're saving thousands on unnecessary materials while delivering better estimates faster."</p>
+                </div>
+                <div class="testimonial-author">
+                    <img src="https://via.placeholder.com/80x80" alt="Sarah Martinez">
+                    <div>
+                        <h4>Sarah Martinez</h4>
+                        <p>Operations Manager, Elite Roofing Solutions</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="testimonial-card">
+                <div class="testimonial-content">
+                    <p>"I was skeptical at first, but after using ReadyAimBid for just one week, I can't imagine going back to our old methods. This is a game-changer."</p>
+                </div>
+                <div class="testimonial-author">
+                    <img src="https://via.placeholder.com/80x80" alt="Dave Wilson">
+                    <div>
+                        <h4>Dave Wilson</h4>
+                        <p>Founder, Wilson Commercial Roofing</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section id="contact" class="cta">
+        <div class="cta-content">
+            <h2 class="cta-title">READY TO <span class="text-accent">TRANSFORM</span> YOUR ESTIMATING?</h2>
+            <p class="cta-subtitle">Join the roofing companies already revolutionizing their bidding process</p>
+            <form class="cta-form">
+                <input type="text" placeholder="Name" required>
+                <input type="email" placeholder="Email" required>
+                <input type="tel" placeholder="Phone">
+                <input type="text" placeholder="Company">
+                <button type="submit" class="btn-primary btn-large">Request Early Access</button>
+            </form>
+        </div>
+        <div class="cta-image">
+            <img src="https://via.placeholder.com/500x600" alt="Roofing Professional Using ReadyAimBid">
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-logo">
+                <div class="logo">Ready<span>Aim</span>Bid</div>
+                <p>The future of roofing estimates is here.</p>
+            </div>
+            <div class="footer-links">
+                <div class="link-group">
+                    <h4>Product</h4>
+                    <a href="#features">Features</a>
+                    <a href="#benefits">Benefits</a>
+                    <a href="#">Pricing</a>
+                    <a href="#">Roadmap</a>
+                </div>
+                <div class="link-group">
+                    <h4>Company</h4>
+                    <a href="#">About Us</a>
+                    <a href="#">Careers</a>
+                    <a href="#">Blog</a>
+                    <a href="#contact">Contact</a>
+                </div>
+                <div class="link-group">
+                    <h4>Resources</h4>
+                    <a href="#">Documentation</a>
+                    <a href="#">Support</a>
+                    <a href="#">FAQ</a>
+                    <a href="#">Community</a>
+                </div>
+                <div class="link-group">
+                    <h4>Legal</h4>
+                    <a href="#">Privacy Policy</a>
+                    <a href="#">Terms of Service</a>
+                    <a href="#">Cookie Policy</a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025 ReadyAimBid. All rights reserved.</p>
+            <div class="social-links">
+                <a href="#"><i class="fab fa-facebook-f"></i></a>
+                <a href="#"><i class="fab fa-twitter"></i></a>
+                <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                <a href="#"><i class="fab fa-instagram"></i></a>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
 </body>
 </html>
