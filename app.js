@@ -292,4 +292,156 @@ document.addEventListener('DOMContentLoaded', function() {
     // Calculate total estimate amount
     function calculateTotal() {
         return estimateData.items.reduce((sum, item) => sum + item.total, 0);
+    }
     
+    // Populate the review page with saved data
+    function populateReviewData() {
+        // Customer info
+        document.getElementById('reviewName').textContent = estimateData.customer.name;
+        document.getElementById('reviewEmail').textContent = estimateData.customer.email;
+        document.getElementById('reviewPhone').textContent = estimateData.customer.phone;
+        document.getElementById('reviewAddress').textContent = 
+            `${estimateData.customer.address}, ${estimateData.customer.city}, ${estimateData.customer.state} ${estimateData.customer.zip}`;
+        
+        // Roof details
+        document.getElementById('reviewRoofType').textContent = estimateData.roofDetails.type;
+        document.getElementById('reviewRoofColor').textContent = estimateData.roofDetails.color;
+        document.getElementById('reviewCrewSize').textContent = estimateData.roofDetails.crewSize;
+        document.getElementById('reviewBuildingType').textContent = estimateData.roofDetails.buildingType;
+        
+        // Items
+        const reviewTableBody = document.getElementById('reviewItemsTableBody');
+        reviewTableBody.innerHTML = '';
+        
+        estimateData.items.forEach(item => {
+            const row = document.createElement('tr');
+            
+            row.innerHTML = `
+                <td>${item.scope}</td>
+                <td>${item.quantity}</td>
+                <td>$${item.unitPrice.toFixed(2)}</td>
+                <td>$${item.total.toFixed(2)}</td>
+            `;
+            
+            reviewTableBody.appendChild(row);
+        });
+        
+        // Update total
+        document.getElementById('reviewTotal').textContent = `$${estimateData.total.toFixed(2)}`;
+    }
+    
+    // Generate PDF estimate
+    function generatePDF() {
+        const { jsPDF } = window.jspdf;
+        
+        // Create new PDF document
+        const doc = new jsPDF();
+        
+        // Add company info
+        doc.setFontSize(22);
+        doc.setTextColor(255, 62, 62); // #ff3e3e
+        doc.text('ReadyAimBid', 105, 20, { align: 'center' });
+        
+        doc.setFontSize(12);
+        doc.setTextColor(100, 100, 100);
+        doc.text('Commercial Roofing Estimate', 105, 28, { align: 'center' });
+        
+        // Add date
+        doc.setFontSize(10);
+        doc.text(`Date: ${new Date().toLocaleDateString()}`, 195, 38, { align: 'right' });
+        
+        // Add estimate number
+        const estimateNumber = Math.floor(10000 + Math.random() * 90000); // Random 5-digit number
+        doc.text(`Estimate #: ${estimateNumber}`, 195, 43, { align: 'right' });
+        
+        // Add customer information
+        doc.setFontSize(12);
+        doc.setTextColor(0, 0, 0);
+        doc.text('CUSTOMER INFORMATION', 15, 50);
+        
+        doc.setFontSize(10);
+        doc.text(`Name: ${estimateData.customer.name}`, 15, 58);
+        doc.text(`Email: ${estimateData.customer.email}`, 15, 63);
+        doc.text(`Phone: ${estimateData.customer.phone}`, 15, 68);
+        doc.text(`Address: ${estimateData.customer.address}`, 15, 73);
+        doc.text(`${estimateData.customer.city}, ${estimateData.customer.state} ${estimateData.customer.zip}`, 15, 78);
+        
+        // Add roof details
+        doc.setFontSize(12);
+        doc.text('ROOF DETAILS', 15, 90);
+        
+        doc.setFontSize(10);
+        doc.text(`Roof Type: ${estimateData.roofDetails.type}`, 15, 98);
+        doc.text(`Roof Color: ${estimateData.roofDetails.color}`, 15, 103);
+        doc.text(`Building Type: ${estimateData.roofDetails.buildingType}`, 15, 108);
+        doc.text(`Crew Size: ${estimateData.roofDetails.crewSize}`, 15, 113);
+        doc.text(`Man-Day Rate: $${estimateData.roofDetails.manDayRate}`, 15, 118);
+        
+        // Add line items
+        doc.setFontSize(12);
+        doc.text('LINE ITEMS', 15, 130);
+        
+        // Create items table
+        const tableColumn = ["Scope", "Quantity", "Unit Price", "Total"];
+        const tableRows = [];
+        
+        estimateData.items.forEach(item => {
+            const itemData = [
+                item.scope,
+                item.quantity.toString(),
+                `$${item.unitPrice.toFixed(2)}`,
+                `$${item.total.toFixed(2)}`
+            ];
+            tableRows.push(itemData);
+        });
+        
+        // Add items to PDF
+        doc.autoTable({
+            head: [tableColumn],
+            body: tableRows,
+            startY: 135,
+            theme: 'grid',
+            styles: {
+                fontSize: 9,
+                cellPadding: 3
+            },
+            headStyles: {
+                fillColor: [255, 62, 62],
+                textColor: [255, 255, 255],
+                fontStyle: 'bold'
+            },
+            columnStyles: {
+                0: { cellWidth: 90 },
+                1: { cellWidth: 20, halign: 'center' },
+                2: { cellWidth: 40, halign: 'right' },
+                3: { cellWidth: 40, halign: 'right' }
+            }
+        });
+        
+        // Add total
+        const finalY = doc.lastAutoTable.finalY || 150;
+        doc.setFontSize(12);
+        doc.setFont(undefined, 'bold');
+        doc.text(`Total: $${estimateData.total.toFixed(2)}`, 195, finalY + 10, { align: 'right' });
+        
+        // Add terms and conditions
+        doc.setFontSize(10);
+        doc.setFont(undefined, 'normal');
+        doc.text('Terms & Conditions:', 15, finalY + 25);
+        doc.setFontSize(8);
+        const terms = [
+            '1. Estimate valid for 30 days from the date of issue.',
+            '2. 50% deposit required before work commences.',
+            '3. Balance due upon completion of work.',
+            '4. Warranty information provided separately.',
+            '5. This estimate is subject to a site inspection.'
+        ];
+        
+        terms.forEach((term, index) => {
+            doc.text(term, 15, finalY + 30 + (index * 5));
+        });
+        
+        // Save the PDF
+        doc.save(`Roofing_Estimate_${estimateNumber}.pdf`);
+    }
+});
